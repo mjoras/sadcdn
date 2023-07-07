@@ -59,7 +59,7 @@ Video playback usually employs adaptive bitrate (ABR) schemes to dynamically adj
 The outcome of limiting video data usage can also be achieved through having the content endpoint mediate the amount of data served to a given user. For example, if a content endpoint limits a given user’s video bitrate to ~2Mbps and also limits the number of outstanding videos being streamed to that user, the overall effect on aggregate data usage is the same as if the network itself employs a shaper configured to a 2Mbps data rate. Networks are able to achieve better efficiencies while still maintaining data usage limits when the content endpoint limits the data sent, rather than relying on a network device to impose an artificial limit.
 
 # Packet Prioritization
-For packet prioritization there is a different problem. While the network device may be able to make inferences about what kinds of content different packets and flows carry, it has become increasingly difficult as traffic is encrypted more holistically. Newly endemic protocols like QUIC are being used for a diverse range of traffic types, and this makes heuristics such as “all low latency traffic looks like WebRTC or RTP” untenable. Additionally, if multiple application flows are being multiplexed over a single encrypted transport, such as QUIC, the network device may want to make different prioritization decisions depending on the application contained within any given packet. 
+For packet prioritization there is a different problem. While the network device may be able to make inferences about what kinds of content different packets and flows carry, it has become increasingly difficult as traffic is encrypted more holistically. Newly endemic protocols like QUIC are being used for a diverse range of traffic types, and this makes heuristics such as “all low latency traffic looks like WebRTC or RTP” untenable. Additionally, if multiple application flows are being multiplexed over a single encrypted transport, such as QUIC, the network device may want to make different prioritization decisions depending on the application contained within any given packet.
 
 # Information Disparity
 In both situations, there is an information disparity between devices in the network and the content endpoints. In both of these situations better outcomes can be achieved by explicit communication and cooperation.
@@ -98,15 +98,15 @@ Using this scheme a network device can initiate its own QUIC connection with the
 
 # Diagrams
 ~~~
- Mobile Device   Packet Core Device       CAP Endpoint Server                     
-     +--+          +------------+           +---------+                           
-     |  |-----------------------------------|         |                           
-     |  |          |            |           |         |                           
-     +--+          |            |+-+-+-+-+-+|         |                           
-                   +------------+           +---------+                           
-                                                                                  
-          -----------               +-+-+-+                                       
-      e2e QUIC connection    SADCDN QUIC connection                               
+ Mobile Device   Packet Core Device       CAP Endpoint Server
+     +--+          +------------+           +---------+
+     |  |-----------------------------------|         |
+     |  |          |            |           |         |
+     +--+          |            |+-+-+-+-+-+|         |
+                   +------------+           +---------+
+
+          -----------               +-+-+-+
+      e2e QUIC connection    SADCDN QUIC connection
 ~~~
 
 In the above we can see a visualization of this idea, assuming that the end-to-end flow is a QUIC connection. These form two completely independent cryptographic contexts. Thus, only the content endpoint can securely communicate with both the network device and the mobile device. This can be used by the network device to, for example, communicate the policer configuration to the content endpoint, which can then influence the video playback to self-regulate and avoid the policing. We can also use a similar scheme to establish a channel between the mobile device and the packet core device.
@@ -114,35 +114,35 @@ In the above we can see a visualization of this idea, assuming that the end-to-e
 Note that it would also be possible for the mobile device and the packet core device to have the secure connection, as below.
 
 ~~~
- Mobile Device   Packet Core Device       CAP Endpoint Server                     
-     +--+          +------------+           +---------+                           
-     |  |-----------------------------------|         |                           
-     |  |+-+-+-+-+-|            |           |         |                           
-     +--+          |            |           |         |                           
-                   +------------+           +---------+                           
-                                                                                  
-          -----------               +-+-+-+                                       
-      e2e QUIC connection    SADCDN QUIC connection                               
+ Mobile Device   Packet Core Device       CAP Endpoint Server
+     +--+          +------------+           +---------+
+     |  |-----------------------------------|         |
+     |  |+-+-+-+-+-|            |           |         |
+     +--+          |            |           |         |
+                   +------------+           +---------+
+
+          -----------               +-+-+-+
+      e2e QUIC connection    SADCDN QUIC connection
 ~~~
 
 Finally, here is roughly what the scheme might look like at the packet layer. Essentially what we see is that an existing flow is appended to include the SADCDN QUIC packets. This is only seen on one side of the packet core device, the side with the established SADCDN connection. It is important to note that not every packet needs this additional information.
 
 ~~~
-                    |                                                    
-              Packet Core Device                                         
-                    |                                                    
-                    |                                                    
-                    |                                                    
-                    |                                                    
-+-----+   +-----+   |  +-----+   +-----+   +-----+                       
-|.....|   |.....|   |  |+++++|   |.....|   |+++++|                       
-|.....|   |.....|   |  |.....|   |.....|   |.....|                       
-+-----+   +-----+   |  |.....|   +-----+   |.....|                       
-                    |  +-----+             +-----+                       
-                    |                                                    
-                                                                         
-       ....             ++++                                             
-       e2e QUIC Data    SADCDN QUIC data                                 
+                    |
+              Packet Core Device
+                    |
+                    |
+                    |
+                    |
++-----+   +-----+   |  +-----+   +-----+   +-----+
+|.....|   |.....|   |  |+++++|   |.....|   |+++++|
+|.....|   |.....|   |  |.....|   |.....|   |.....|
++-----+   +-----+   |  |.....|   +-----+   |.....|
+                    |  +-----+             +-----+
+                    |
+
+       ....             ++++
+       e2e QUIC Data    SADCDN QUIC data
 ~~~
 
 
