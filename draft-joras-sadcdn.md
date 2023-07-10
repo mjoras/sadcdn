@@ -36,7 +36,7 @@ informative:
 
 --- abstract
 
-There is increasing need for application endpoints to communicate with devices in the network and secure that information from path observers.
+There is increasing need for application endpoints to exchange rich information with devices in the network and secure that information from on-path observers. This document presents some current problems and the broad strokes of potential solutions.
 
 
 --- middle
@@ -145,7 +145,9 @@ Finally, here is roughly what the scheme might look like at the packet layer. Es
        e2e QUIC Data    SADCDN QUIC data
 ~~~
 
+# MTU Considerations
 
+As the solution sketch currently entails appending data to existing packets in a flow, there are obvious MTU considerations. Particularly, this solution design would rely on either being able to increase the effective MTU of the path, or on there being sufficiently small packets that have headroom that does not exceed the MTU. The latter is likely possible for many typical applications such as streaming video since the packets sent from client to server do not typically fully utilize an MTU (as they are mostly acknowledgments).
 
 # Conventions and Definitions
 
@@ -154,7 +156,7 @@ Finally, here is roughly what the scheme might look like at the packet layer. Es
 
 # Security Considerations
 
-TODO Security
+There are numerous security considerations in this problem space. The thesis of this draft is to mitigate the key one: the security of information from actors on the network path. However, even when this information is encrypted there are numerous considerations in addition to the considerations of using a standardized cryptographic protocol. These must be accounted for in the trust model of any system or protocol utilizing this kind of encrypted in-band communication. The solution sketch above allows for mitigating some of these with standard features such as mutual authentication.
 
 
 # IANA Considerations
