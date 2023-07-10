@@ -4,8 +4,8 @@
 
 Network Working Group                                           M. Joras
 Internet-Draft                                      Meta Platforms, Inc.
-Intended status: Informational                               7 July 2023
-Expires: 8 January 2024
+Intended status: Informational                              10 July 2023
+Expires: 11 January 2024
 
 
  Securing Ancillary Data for Communicating with Devices in the Network
@@ -13,9 +13,10 @@ Expires: 8 January 2024
 
 Abstract
 
-   There is increasing need for application endpoints to communicate
-   with devices in the network and secure that information from path
-   observers.
+   There is increasing need for application endpoints to exchange rich
+   information with devices in the network and secure that information
+   from on-path observers.  This document presents some current problems
+   and the broad strokes of potential solutions.
 
 Discussion Venues
 
@@ -39,7 +40,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 January 2024.
+   This Internet-Draft will expire on 11 January 2024.
 
 Copyright Notice
 
@@ -66,12 +67,13 @@ Table of Contents
    7.  End User Transparency
    8.  Proposed Solution Sketch
    9.  Diagrams
-   10. Conventions and Definitions
-   11. Security Considerations
-   12. IANA Considerations
-   13. References
-     13.1.  Normative References
-     13.2.  Informative References
+   10. MTU Considerations
+   11. Conventions and Definitions
+   12. Security Considerations
+   13. IANA Considerations
+   14. References
+     14.1.  Normative References
+     14.2.  Informative References
    Acknowledgments
    Author's Address
 
@@ -364,7 +366,19 @@ Table of Contents
           ....             ++++
           e2e QUIC Data    SADCDN QUIC data
 
-10.  Conventions and Definitions
+10.  MTU Considerations
+
+   As the solution sketch currently entails appending data to existing
+   packets in a flow, there are obvious MTU considerations.
+   Particularly, this solution design would rely on either being able to
+   increase the effective MTU of the path, or on there being
+   sufficiently small packets that have headroom that does not exceed
+   the MTU.  The latter is likely possible for many typical applications
+   such as streaming video since the packets sent from client to server
+   do not typically fully utilize an MTU (as they are mostly
+   acknowledgments).
+
+11.  Conventions and Definitions
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
@@ -372,17 +386,25 @@ Table of Contents
    BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
-11.  Security Considerations
+12.  Security Considerations
 
-   TODO Security
+   There are numerous security considerations in this problem space.
+   The thesis of this draft is to mitigate the key one: the security of
+   information from actors on the network path.  However, even when this
+   information is encrypted there are numerous considerations in
+   addition to the considerations of using a standardized cryptographic
+   protocol.  These must be accounted for in the trust model of any
+   system or protocol utilizing this kind of encrypted in-band
+   communication.  The solution sketch above allows for mitigating some
+   of these with standard features such as mutual authentication.
 
-12.  IANA Considerations
+13.  IANA Considerations
 
    This document has no IANA actions.
 
-13.  References
+14.  References
 
-13.1.  Normative References
+14.1.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -393,7 +415,7 @@ Table of Contents
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
 
-13.2.  Informative References
+14.2.  Informative References
 
    [I-D.draft-flinck-mobile-throughput-guidance-04]
               Jain, A., Terzis, A., Flinck, H., Sprecher, N.,
