@@ -325,7 +325,7 @@ Table of Contents
    independent cryptographic contexts.  Thus, only the content endpoint
    can securely communicate with both the network device and the mobile
    device.  This can be used by the network device to, for example,
-   communicate the policer configuration to the content endpoint, which
+   communicate the shaper configuration to the content endpoint, which
    can then influence the video playback to self-regulate and avoid the
    policing.  We can also use a similar scheme to establish a channel
    between the mobile device and the packet core device.

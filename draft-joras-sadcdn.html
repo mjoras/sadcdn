@@ -1299,7 +1299,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
       e2e QUIC connection    SADCDN QUIC connection
 </pre><a href="#section-9-1" class="pilcrow">¶</a>
 </div>
-<p id="section-9-2">In the above we can see a visualization of this idea, assuming that the end-to-end flow is a QUIC connection. These form two completely independent cryptographic contexts. Thus, only the content endpoint can securely communicate with both the network device and the mobile device. This can be used by the network device to, for example, communicate the policer configuration to the content endpoint, which can then influence the video playback to self-regulate and avoid the policing. We can also use a similar scheme to establish a channel between the mobile device and the packet core device.<a href="#section-9-2" class="pilcrow">¶</a></p>
+<p id="section-9-2">In the above we can see a visualization of this idea, assuming that the end-to-end flow is a QUIC connection. These form two completely independent cryptographic contexts. Thus, only the content endpoint can securely communicate with both the network device and the mobile device. This can be used by the network device to, for example, communicate the shaper configuration to the content endpoint, which can then influence the video playback to self-regulate and avoid the policing. We can also use a similar scheme to establish a channel between the mobile device and the packet core device.<a href="#section-9-2" class="pilcrow">¶</a></p>
 <p id="section-9-3">Note that it would also be possible for the mobile device and the packet core device to have the secure connection, as below.<a href="#section-9-3" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-9-4">
 <pre>
