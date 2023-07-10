@@ -248,7 +248,11 @@ Table of Contents
    network device has informed the content endpoint to put a cap on
    video bitrate.  Since the application is the one applying this cap,
    it can convey that information to the user via the application’s user
-   interface.
+   interface.  Additionally, the application is able to proactively
+   surface any information the content endpoint is sharing with the
+   network device.  For instance with variable packet prioritization the
+   application would surface to the user that information about the
+   content type is being shared with the network.
 
 8.  Proposed Solution Sketch
 
@@ -397,6 +401,13 @@ Table of Contents
    system or protocol utilizing this kind of encrypted in-band
    communication.  The solution sketch above allows for mitigating some
    of these with standard features such as mutual authentication.
+
+   Another consideration is the resiliency of this solution to
+   “bleaching” of the information.  An on-path actor could remove the
+   additional information, or move it between packets, as the
+   cryptographic contexts are independent.  For the current usecases
+   this would not impact functionality, as the information is only being
+   used for optimization purposes.
 
 13.  IANA Considerations
 
