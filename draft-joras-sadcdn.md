@@ -109,7 +109,7 @@ Using this scheme a network device can initiate its own QUIC connection with the
       e2e QUIC connection    SADCDN QUIC connection
 ~~~
 
-In the above we can see a visualization of this idea, assuming that the end-to-end flow is a QUIC connection. These form two completely independent cryptographic contexts. Thus, only the content endpoint can securely communicate with both the network device and the mobile device. This can be used by the network device to, for example, communicate the shaper configuration to the content endpoint, which can then influence the video playback to self-regulate and avoid the policing. We can also use a similar scheme to establish a channel between the mobile device and the packet core device.
+In the above we can see a visualization of this idea, assuming that the end-to-end flow is a QUIC connection. These form two completely independent cryptographic contexts. Thus, only the content endpoint can securely communicate with both the network device and the mobile device. This can be used by the network device to, for example, communicate the shaper configuration to the content endpoint, which can then influence the video playback to self-regulate and avoid the shaping. We can also use a similar scheme to establish a channel between the mobile device and the packet core device.
 
 Note that it would also be possible for the mobile device and the packet core device to have the secure connection, as below.
 
